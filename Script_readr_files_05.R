@@ -459,8 +459,6 @@ plot(edad, Score, xlab = "Edad", ylab="Score", main="Score vs Edad",
 barplot(table(tipviv), xlab = "Vivienda", ylab="Frecuencia", main="Diagrama de barras",
         col="steelblue", border="gray50")
 
-
-
 # Ejercicio
 # Realice los graficos anteriors para las variables
 # Antiguedad, Cuota_mensual, Estado_civil, eliga los colores y titulos a conveniencia
