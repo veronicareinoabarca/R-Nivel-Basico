@@ -7,51 +7,59 @@
 
 ##--------- 1. working directory wd
 # setear wd
-wd0 <- "C:/Users/Toshiba/Desktop/readr_files_05"
-setwd(dir = wd0)
+#vamos a crear un nuevo directorio con  wd0 
+wd0 <- "C:/Users/VERONICA/Desktop/repositorioR/R-Nivel-Basico"
+#wd0 <- "C:/Users/Toshiba/Desktop/readr_files_05"
+wd0 <- getwd()#obtenemos o nos muestra en donde estamos trabajando
+setwd(dir = wd0)#seteamos la direccion
 
 # obtencion de wd
-getwd()
+getwd() # nos sale una direcccion en donde esta guarada la carpeta
 
 # archivos en wd
-list.files()
+list.files()#nos muestra todos los archivos 
 list.files(pattern = ".Rmd")
 
-wd1 <- "C:/Users/Toshiba/Desktop/readr_files_05/read_data"
+wd1 <- "C:/Users/VERONICA/Desktop/repositorioR/R-Nivel-Basico/read_data"
+#wd1 <- "C:/Users/Toshiba/Desktop/readr_files_05/read_data"
 setwd(dir = wd1)
-list.files()
+getwd()# es para saber en donde estamos trabajando
+list.files()#los archivos q contiene el nuevo directirio
 list.files(pattern = ".txt")
 
-files <- list.files()
+files <- list.files()#a list.files() le asigmanos al vector file
 files
-grep(files, pattern = ".txt")
-files[grep(files,pattern = ".txt")]
+grep(files, pattern = ".txt")#grep busca un determinado patron en ese caso los archivos .txt
+files[grep(files,pattern = ".txt")]#nos extrae del vector files la componente 3 y 7 
+
 
 # crear nuevos directorios
 setwd(dir = wd0)
-file.exists("ssl")
-dir.create("ssl")
+file.exists("ssl")#si existe una carpeta con el noombre ssl
+dir.create("ssl")#crea una carpetta con el nombre ssl en el directorio wd0
 
 ##--------- 2. read files
-setwd(wd1)
+setwd(wd1)#da lo mismo poner dir o no pues solo depende de un parametroq es el dir, y el R le asigna a dir
 list.files()
 # read.table function
 # archivo formato txt
 data_txt1 <- read.table(file = "data_read.txt",sep = "\t", dec = ",", header = TRUE)
-str(data_txt1)
+str(data_txt1)#nos permite ver la etructura de datos
 View(data_txt1)
 
-names(data_txt1)
+#para los atributos de una data friend
+attributes(data_txt1)
+names(data_txt1)#nos aparece los nombre de la clase
 class(data_txt1)
 dim(data_txt1)
 ncol(data_txt1)
 nrow(data_txt1)
 
-summary(data_txt1)
+summary(data_txt1)#nos devuelve un resumen estadistico para rodas las variables
+
 
 # Variables categóricas como character
-data_txt2 <- read.table(file = "data_read.txt",sep = "\t", dec = ",", 
-                       header = TRUE, stringsAsFactors = FALSE)
+data_txt2 <- read.table(file = "data_read.txt",sep = "\t", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 str(data_txt2)
 
 
@@ -68,16 +76,17 @@ nrow(data_csv)
 
 summary(data_csv)
 
-# sep = ",", dec = "."
+#con el read.csv no necesita de sep o dec pues R ya sabe q la separacion por columnas es coma y la separacion por decimales es el punto
+# sep = ",", dec = ".", header=TRUE
 data_csv1 <- read.csv(file = "data_read.csv")
 str(data_csv1)
 
-data_csv2 <- read.csv(file = "data_read.csv",sep = ",", dec = ".", header = TRUE)
+data_csv2 <- read.csv2(file = "data_read.csv",sep = ",", dec = ".", header = TRUE)
 str(data_csv2)
 
 
 # archivo formato xlsx
-# install.packages("readxl", dependencies = TRUE)
+install.packages("readxl", dependencies = TRUE)
 library(readxl)
 ls("package:readxl")
 # lista de las hojas del libro "data_read.xlsx"
@@ -85,19 +94,19 @@ excel_sheets(path = file.path(wd1, "data_read.xlsx"))
 
 data_xlsx <- read_excel("data_read.xlsx",sheet = "datos",col_names = TRUE, na="")
 str(data_xlsx)
-
+View(data_xlsx)
 
 
 # archivos spss formato .sav
-# install.packages("foreign", dependencies = TRUE)
+install.packages("foreign", dependencies = TRUE)
 library(foreign)
-ls("package:foreign")
-system.time(data_sav1 <- read.spss("data_read.sav", use.value.labels = TRUE, 
-                      to.data.frame = TRUE))
+ls("package:foreign")#en lista las funciones q tiene este paquete
+data_sav1 <- read.spss("data_read.sav", use.value.labels = TRUE, 
+                      to.data.frame = TRUE)
 str(data_sav1)
 
 
-# install.packages("haven", dependencies = TRUE)
+install.packages("haven", dependencies = TRUE)
 # spss: read_spss(), sas: read_sas(), stata: read_dta()
 library(haven)
 ls("package:haven")
@@ -122,14 +131,16 @@ str(data_dbx)
 
 
 ## Descargar archivos desde tablas html
+install.packages("RCurl", dependencies = TRUE)
+install.packages("XML", dependencies = TRUE)
 library(RCurl)
 library(XML)
-# install.packages("RCurl", dependencies = TRUE)
-# install.packages("XML", dependencies = TRUE)
+
 # http://www.sbs.gob.ec/practg/sbs_index?vp_art_id=&vp_tip=6&vp_buscr=/practg/pk_cons_bdd.p_bal_entdd_finnc
-cod_inst=1028
-cod_mes=11
-cod_anio=2010
+cod_inst<-1029
+cod_mes<-12
+cod_anio<-2013
+paste("Curso", "R","Basico",1:2)
 base_url <- paste('http://www.sbs.gob.ec/practg/pk_cons_bdd.p_bal_entdd_finnc?vp_cod_tip_instt=3&vp_cod_instt=',
                   cod_inst,'&vp_anio=', cod_anio, '&vp_mes=', cod_mes, '&vp_cod_tip_catlg=14')
 table_url <- readHTMLTable(base_url)
@@ -191,7 +202,7 @@ edad1 <- edad[-1]
 length(edad)
 length(edad1)
 # eliminar los elementos 1, 25, 51 de edad y asignar a edad1
-edad1 <- edad[-c(1,25,51)]
+edad1 <- edad[-(1:1000)]
 length(edad)
 length(edad1)
 # eliminar los primeros 1000 elementos de edad y asignar a edad1
@@ -202,7 +213,7 @@ length(edad1)
 # eliminar los elementos iguales a 24 de edad y asignar a edad1
 edad==24
 edad1 <- edad[edad==24]
-# edad1 es constante?
+# edad1 es constante? es constante cuando el minimo es igual al maximo
 min(edad1)==max(edad1)
 length(edad1)
 
@@ -228,13 +239,13 @@ summary(edad1)
 # si la edad es superior a 65 setear 65 por defecto
 edad>65
 edad1 <- edad
-edad1[edad1>65] <- 65
+edad1[edad1>65] <- 65 # lo q te hace es si hay edades de mayores a 65 por ejemplo 80  para no borarr de tu analisis se recodifica es decir la edad de 80 se hace 65 
 max(edad1)
 max(edad)
 View(edad1)
 
 # si la edad es inferior a 18 setear 18 por defecto
-edad1 <- edad
+edad1 <- edad 
 edad1[edad1<18] <- 18
 min(edad1)
 min(edad)
@@ -242,7 +253,7 @@ View(edad1)
 
 # si la edad es inferior a 18 y mayor a 65 setear "fuera de rango" por defecto
 edad1 <- edad
-edad1<18 | edad > 65
+edad1<18 | edad > 65# les pone fuera de rango la edad menor a 18 o mayor a 65
 edad1[edad1<18 | edad > 65] <- "fuera de rango"
 str(edad1)
 min(edad1)
@@ -253,7 +264,7 @@ edad2 <- as.numeric(edad1)
 #edad2 <- as.double(edad1)
 #edad2 <- as.integer(edad1)
 mean(edad2)
-mean(edad2, na.rm=TRUE)
+mean(edad2, na.rm=TRUE)#te saca el promedio de solo los datos q tienes exceptuando los datos perdidos
 
 
 ## datos perdidos
@@ -261,9 +272,9 @@ perd <- is.na(edad)
 typeof(perd)
 str(perd)
 # todos los datos de edad son perdidos?
-all(perd)
+all(perd)#todos los datos son perdidos te devuelve false, quiere decir q no hay datos perdidos 
 # existe al menos un dato perdido?
-any(perd)
+any(perd)#al menos hay un true
 # cuente los datos perdidos
 sum(perd)
 # que porcentaje de datos perdidos se tiene
@@ -405,10 +416,10 @@ names(data_txt)
 edad <- data_txt[,"Edad"]
 # histograma
 hist(edad)
-hist(edad,breaks = 50)
+hist(edad,breaks = 50)#modifica el ancho de la barras
 hist(edad,breaks = 50, xlab = "Edad", ylab="Frecuencia", main="Histograma de Edad")
 hist(edad,breaks = 50, xlab = "Edad", ylab="Frecuencia", main="Histograma de Edad",
-     col="steelblue", border="gray60")
+     col="red", border="gray1")
 
 # Diagrama de cajas
 boxplot(edad)
@@ -426,7 +437,7 @@ plot(edad, Score, xlab = "Edad", ylab="Score", main="Score vs Edad")
 plot(edad, Score, xlab = "Edad", ylab="Score", main="Score vs Edad",
      pch=20)
 plot(edad, Score, xlab = "Edad", ylab="Score", main="Score vs Edad",
-     pch=18, col="steelblue")
+     pch=18, col="red")
 
 # Diagrama de barras
 tipviv <- data_txt[,"Vivienda"]
@@ -438,7 +449,7 @@ barplot(table(tipviv), xlab = "Vivienda", ylab="Frecuencia", main="Diagrama de b
 
 
 # multiples graficos
-par(mfrow=c(2,2))
+par(mfrow=c(2,2))#nos crea una malla de dos filas y dos columnas y te llena por filas si quieres q te llena por columnas pones mfcol
 hist(edad,breaks = 50, xlab = "Edad", ylab="Frecuencia", main="Histograma de Edad",
      col="steelblue", border="gray60")
 boxplot(edad, xlab = "", ylab="Edad", main="Diag cajas de Edad",
